@@ -1,48 +1,40 @@
-    // Create Dino Constructor
-class Dinosaur {
-    constructor(species, weight, height, diet, fact, when, where) {
-        this.species = species;
-        this.height = height;
-        this.weight = weight;
-        this.diet = diet;
-        this.fact = fact;
-        this.when = when;
-        this.where = where;
-    }
-}    
-
-fetch("dino.json")
-  .then(response => response.json())
-  .then(data => dinoArray = dinoCreator(data))
-  .then(dinoArray => {
-        compareDiet(humanCreator, dinoArray)
+    // Fetch Dino data from dino.JSON 
+function dataGrabber() {
+    fetch("dino.json")
+    .then(response => response.json())
+    .then(data => dinoArray = data.Dinos)
+    .then(dinoArray => {
+        console.log(dinoArray)
+        compareDiet(humanCreator(), dinoArray)
+        compareHeight(humanCreator(), dinoArray)
+        compareWeight(humanCreator(), dinoArray)
+        dinoTiles()
+        console.log(dinoArray)
   })
-    // Create Dino Objects
-
-function dinoCreator(element) {
-    let dinoData = element.Dinos
-    newDinoArray = Array(dinoData.length)
-      for (let i = 0; i < dinoData.length; i++) {
-          newDinoArray[i] = new Dinosaur(dinoData[i].species, dinoData[i].weight, dinoData[i].height, dinoData[i].diet, dinoData[i].fact, dinoData[i].when, dinoData[i].where)  
-      }
-      return newDinoArray
 }
 
-console.log()
     // Create Human Object
 
 class Human {
     constructor(name, height, weight, diet) {
-        this.name = name;
-        this.height = height;
-        this.weight = weight;
-        this.diet = diet;
+        this.name = document.getElementById('name').value,
+        this.height = (parseInt(document.getElementById('feet').value) * 12 + parseInt(document.getElementById('inches').value)).toString(),
+        this.weight = document.getElementById('weight').value,
+        this.diet = document.querySelector('#diet').value
     }
 }    
     
 function humanCreator() {
-    return new Human(document.getElementById('name'), document.getElementById('height'), document.getElementById('weight'), document.getElementById('diet'))
+    let newHuman = new Human()
+    console.log(newHuman)
+    return newHuman
 }
+
+    // Create a new human when clicking Compare me
+
+const compareMe = document.getElementById('btn')
+compareMe.addEventListener('click', dataGrabber)
+
     // Use IIFE to get human data from form
 
 
@@ -50,9 +42,8 @@ function humanCreator() {
     // NOTE: Weight in JSON file is in lbs, height in inches. 
 
 function compareDiet(human, dinosaur) {
-    let humanDiet = human.diet;
-    for (i = 0; i < dinosaur.length; i++) {
-        if(humanDiet === dinosaur[i].diet) {
+    for (let i = 0; i < dinosaur.length; i++) {
+        if(human.diet.toLowerCase() === dinosaur[i].diet) {
             console.log(dinosaur[i].species)
         } 
     }
@@ -61,16 +52,53 @@ function compareDiet(human, dinosaur) {
     // Create Dino Compare Method 2
     // NOTE: Weight in JSON file is in lbs, height in inches.
 
-    
+function compareHeight(human, dinosaur) {
+    for (let i = 0; i < dinosaur.length; i++) {
+        if(human.height !== dinosaur[i].height) {
+            console.log('Only pigeons are shorter than humans')
+        }
+    }
+}
+
     // Create Dino Compare Method 3
     // NOTE: Weight in JSON file is in lbs, height in inches.
 
+function compareWeight(human, dinosaur) {
+    for(let i = 0; i < dinosaur.length; i++) {
+        if(human.weight !== dinosaur[i].weight) {
+            console.log('All dinosaurs except pigeons are heavier than humans')
+        }
+    }
+}
 
     // Generate Tiles for each Dino in Array
   
+function dinoTiles(dinosaur) {
+    const dinoGrid = document.getElementById('grid')
+    for (let i = 0; i < 9; i++) {
+        let tile = document.createElement('div')
+        tile.classList.add('grid-item')
+        tile.innerHTML = `<h3>${dinosaur.species}</h3>
+                          <p>${dinosaur.fact}</p>
+                          <p>${dinosaur.weight}</p>
+                          <img src='images/${dinosaur.species}.png'>`
+        
+        dinoGrid.appendChild(tile)
+    }
+}
+
+let tiles = Array.from(document.getElementsByClassName('grid-item'))
+
+compareMe.addEventListener('click', dinoTiles)
         // Add tiles to DOM
 
     // Remove form from screen
 
+function hideForm() {
+    const magicForm = document.getElementById('dino-compare')
+    magicForm.style.display = "none"
+}
+
+compareMe.addEventListener('click',hideForm)
 
 // On button click, prepare and display infographic
