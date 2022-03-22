@@ -8,7 +8,7 @@ function dataGrabber() {
         compareDiet(humanCreator(), dinoArray)
         compareHeight(humanCreator(), dinoArray)
         compareWeight(humanCreator(), dinoArray)
-        dinoTiles(dinoArray)
+        dinoTiles(humanCreator(), dinoArray)
         console.log(dinoArray)
   })
 }
@@ -73,22 +73,23 @@ function compareWeight(human, dinosaur) {
 
     // Generate Tiles for each Dino in Array
   
-function dinoTiles(dinosaur) {
+function dinoTiles(human, dinosaur) {
     const dinoGrid = document.getElementById('grid')
+    let humanTile = document.createElement('div')
+        humanTile.classList.add('grid-item')
+        humanTile.innerHTML = `<h3>${human.name}</h3>
+                               <img src='images/human.png'>`
+    dinoGrid.appendChild(humanTile)
     for (let i = 0; i < dinosaur.length; i++) {
         let tile = document.createElement('div')
         tile.classList.add('grid-item')
         tile.innerHTML = `<h3>${dinosaur[i].species}</h3>
                           <p>${dinosaur[i].fact}</p>
                           <img src='images/${dinosaur[i].species}.png'>`
-        
         dinoGrid.appendChild(tile)
     }
 }
 
-let tiles = Array.from(document.getElementsByClassName('grid-item'))
-
-compareMe.addEventListener('click', dinoTiles)
         // Add tiles to DOM
 
     // Remove form from screen
