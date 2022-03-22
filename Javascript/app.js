@@ -87,6 +87,9 @@ function dinoTiles(human, dinosaur) {
                           <p>${dinosaur[i].fact}</p>
                           <img src='images/${dinosaur[i].species}.png'>`
         dinoGrid.appendChild(tile)
+        let tiles = Array.from(document.getElementsByClassName('grid-item'))
+        tiles.splice(0, 4, humanTile)
+        console.log(tiles)
     }
 }
 
