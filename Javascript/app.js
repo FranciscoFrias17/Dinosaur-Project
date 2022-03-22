@@ -8,7 +8,7 @@ function dataGrabber() {
         compareDiet(humanCreator(), dinoArray)
         compareHeight(humanCreator(), dinoArray)
         compareWeight(humanCreator(), dinoArray)
-        dinoTiles()
+        dinoTiles(dinoArray)
         console.log(dinoArray)
   })
 }
@@ -75,13 +75,12 @@ function compareWeight(human, dinosaur) {
   
 function dinoTiles(dinosaur) {
     const dinoGrid = document.getElementById('grid')
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < dinosaur.length; i++) {
         let tile = document.createElement('div')
         tile.classList.add('grid-item')
-        tile.innerHTML = `<h3>${dinosaur.species}</h3>
-                          <p>${dinosaur.fact}</p>
-                          <p>${dinosaur.weight}</p>
-                          <img src='images/${dinosaur.species}.png'>`
+        tile.innerHTML = `<h3>${dinosaur[i].species}</h3>
+                          <p>${dinosaur[i].fact}</p>
+                          <img src='images/${dinosaur[i].species}.png'>`
         
         dinoGrid.appendChild(tile)
     }
