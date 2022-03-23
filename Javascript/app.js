@@ -1,15 +1,11 @@
     // Fetch Dino data from dino.JSON 
 function dataGrabber() {
-    fetch("dino.json")
+fetch("dino.json")
     .then(response => response.json())
     .then(data => dinoArray = data.Dinos)
     .then(dinoArray => {
-        console.log(dinoArray)
-        compareDiet(humanCreator(), dinoArray)
-        compareHeight(humanCreator(), dinoArray)
-        compareWeight(humanCreator(), dinoArray)
         dinoTiles(humanCreator(), dinoArray)
-        console.log(dinoArray)
+
   })
 }
 
@@ -22,11 +18,10 @@ class Human {
         this.weight = document.getElementById('weight').value,
         this.diet = document.querySelector('#diet').value
     }
-}    
-    
+}
+
 function humanCreator() {
     let newHuman = new Human()
-    console.log(newHuman)
     return newHuman
 }
 
@@ -37,59 +32,86 @@ compareMe.addEventListener('click', dataGrabber)
 
     // Use IIFE to get human data from form
 
+// Random Generator Function
 
+function randomGen(human, dinosaur) {
+    let randomNum = Math.floor(Math.random()*3)
+    let funFact = '';
+    if (randomNum === 0) {
+        funFact = compareDiet(human, dinosaur)
+    } if (randomNum === 1) {
+        funFact = compareHeight(human, dinosaur)
+    } if (randomNum === 2) {
+        funFact = compareWeight(human, dinosaur)
+    }
+    return funFact
+}
     // Create Dino Compare Method 1
-    // NOTE: Weight in JSON file is in lbs, height in inches. 
+    // NOTE: Weight in JSON file is in lbs, height in inches.
 
 function compareDiet(human, dinosaur) {
-    for (let i = 0; i < dinosaur.length; i++) {
-        if(human.diet.toLowerCase() === dinosaur[i].diet) {
-            console.log(dinosaur[i].species)
-        } 
-    }
+    let fact = '';
+        if(dinosaur.species === 'Pigeon') {
+            fact = 'All birds are Dinosaurs.'
+        } else if (human.diet.toLowerCase() === dinosaur.diet){
+            fact = `You and ${dinosaur.species} should share meals`
+        } else if (human.diet.toLowerCase() != dinosaur.diet) {
+            fact = `${dinosaur.species} does not share your diet`
+        }
+        return fact
 }
-    
+ 
     // Create Dino Compare Method 2
     // NOTE: Weight in JSON file is in lbs, height in inches.
 
 function compareHeight(human, dinosaur) {
-    for (let i = 0; i < dinosaur.length; i++) {
-        if(human.height !== dinosaur[i].height) {
-            console.log('Only pigeons are shorter than humans')
+    let fact ='';
+        if(dinosaur.species === 'Pigeon') {
+            fact = 'All birds are Dinosaurs.'
+        } else if (human.height < dinosaur.height) {
+            fact = `${dinosaur.species} is ${dinosaur.height - human.height} inches taller than you`
+        } else if (human.height > dinosaur.height) {
+            fact = `${dinosaur.species} is ${human.height - dinosaur.height} inches shorter than you`
         }
-    }
+        return fact
 }
 
     // Create Dino Compare Method 3
     // NOTE: Weight in JSON file is in lbs, height in inches.
 
 function compareWeight(human, dinosaur) {
-    for(let i = 0; i < dinosaur.length; i++) {
-        if(human.weight !== dinosaur[i].weight) {
-            console.log('All dinosaurs except pigeons are heavier than humans')
+    let fact = '';
+        if (dinosaur.species === 'Pigeon') {
+            fact = 'All birds are Dinosaurs.'
+        } else if (human.weight < dinosaur.weight) {
+            fact = `${dinosaur.species} is ${dinosaur.weight - human.weight} lbs heavier than you`
+        } else if (human.weight > dinosaur.weight) {
+            fact = `${dinosaur.species} is ${human.weight - dinosaur.weight} lbs lighter than you`
         }
-    }
+        return fact
 }
 
     // Generate Tiles for each Dino in Array
-  
+
 function dinoTiles(human, dinosaur) {
     const dinoGrid = document.getElementById('grid')
+    // Make human tile
     let humanTile = document.createElement('div')
         humanTile.classList.add('grid-item')
         humanTile.innerHTML = `<h3>${human.name}</h3>
                                <img src='images/human.png'>`
-    dinoGrid.appendChild(humanTile)
+    // generate dino tiles from dinoArray Data
     for (let i = 0; i < dinosaur.length; i++) {
+        let randomFact = randomGen(human, dinosaur[i])
         let tile = document.createElement('div')
         tile.classList.add('grid-item')
         tile.innerHTML = `<h3>${dinosaur[i].species}</h3>
-                          <p>${dinosaur[i].fact}</p>
+                          <p>${randomFact}</p>
                           <img src='images/${dinosaur[i].species}.png'>`
         dinoGrid.appendChild(tile)
-        let tiles = Array.from(document.getElementsByClassName('grid-item'))
-        tiles.splice(0, 4, humanTile)
-        console.log(tiles)
+        if (i === 3) {
+            dinoGrid.appendChild(humanTile)
+        }
     }
 }
 
