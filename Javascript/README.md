@@ -63,5 +63,5 @@ Although not a requirement, we recommend using Git from the very beginning. Make
 ### Resources
 
 Used Udacity knowledge for some guidance: 
-Random Fact Generator : https://knowledge.udacity.com/questions/558241
-Working with Dino Grid Tiles: https://knowledge.udacity.com/questions/473526
+- Random Fact Generator : https://knowledge.udacity.com/questions/558241
+- Working with Dino Grid Tiles: https://knowledge.udacity.com/questions/473526
